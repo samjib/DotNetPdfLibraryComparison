@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+  <!--
+    Shared by every POC: the invoice model, UK sample data, formatting helpers,
+    brand constants/fonts, and an HTML template (Razor component) that the
+    Chromium-based engines render.
+  -->
+  <ItemGroup>
+    <!-- HtmlRenderer lets us render a Razor component to an HTML string outside a web app -->
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="10.0.12" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.12" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.12" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Lato (SIL Open Font Licence) is embedded so every engine uses the same typeface -->
+    <EmbeddedResource Include="Fonts\Lato-Regular.ttf" LogicalName="Fonts.Lato-Regular.ttf" />
+    <EmbeddedResource Include="Fonts\Lato-Bold.ttf" LogicalName="Fonts.Lato-Bold.ttf" />
+    <EmbeddedResource Include="Html\invoice.css" LogicalName="Html.invoice.css" />
+    <EmbeddedResource Include="Html\stress.css" LogicalName="Html.stress.css" />
+    <!-- Stress-test assets: extra OFL fonts (DM Serif Display, IBM Plex Mono, Amiri), DejaVu Sans
+         for fallback, and images created for this repo (SVG/PNG logo, JPEG photo, PNG thumbnails). -->
+    <EmbeddedResource Include="Stress\Assets\*.*" LogicalName="Stress.%(Filename)%(Extension)" />
+  </ItemGroup>
+</Project>

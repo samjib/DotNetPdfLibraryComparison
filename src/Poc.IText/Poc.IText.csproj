@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- AGPLv3 or commercial licence. The Bouncy Castle adapter is required by iText 8+ at runtime. -->
+    <PackageReference Include="itext" Version="9.7.0" />
+    <PackageReference Include="itext.bouncy-castle-adapter" Version="9.7.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Invoice.Shared\Invoice.Shared.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Commercial (Telerik DevCraft / UI subscriptions). Requires a Telerik licence key file;
+         without one the output is watermarked. Flow (Word-like) model + PDF export. -->
+    <PackageReference Include="Telerik.Documents.Flow" Version="2026.3.826" />
+    <PackageReference Include="Telerik.Documents.Flow.FormatProviders.Pdf" Version="2026.3.826" />
+    <!-- Needed on .NET Core as soon as a document contains images (adds SkiaSharp). -->
+    <PackageReference Include="Telerik.Documents.ImageUtils" Version="2026.3.826" />
+    <!-- SkiaSharp ships Windows/macOS natives; Linux needs this or PNGs fail as "Not supported image format". -->
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="3.119.1" Condition="!$([MSBuild]::IsOSPlatform('Windows'))" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Invoice.Shared\Invoice.Shared.csproj" />
+  </ItemGroup>
+</Project>

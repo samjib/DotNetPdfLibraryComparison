@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+  <!-- No PDF package at all: Gotenberg (MIT) runs as a separate Docker container and we call its HTTP API. -->
+  <ItemGroup>
+    <ProjectReference Include="..\Invoice.Shared\Invoice.Shared.csproj" />
+  </ItemGroup>
+</Project>

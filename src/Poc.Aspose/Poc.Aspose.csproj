@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Commercial. Without a licence it runs in evaluation mode (watermark + limits).
+         Aspose.PDF uses System.Drawing on Windows; Aspose.PDF.Drawing is the cross-platform variant. -->
+    <PackageReference Include="Aspose.PDF" Version="26.8.0" Condition="$([MSBuild]::IsOSPlatform('Windows'))" />
+    <PackageReference Include="Aspose.PDF.Drawing" Version="26.8.0" Condition="!$([MSBuild]::IsOSPlatform('Windows'))" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Invoice.Shared\Invoice.Shared.csproj" />
+  </ItemGroup>
+</Project>

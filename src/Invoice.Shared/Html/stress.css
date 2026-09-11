@@ -1,0 +1,69 @@
+/* Stress-test print stylesheet. Font URLs become data URIs at runtime; {{...}} tokens are replaced. */
+@font-face { font-family: "Lato"; src: url("Lato-Regular.ttf"); font-weight: 400; }
+@font-face { font-family: "Lato"; src: url("Lato-Bold.ttf"); font-weight: 700; }
+@font-face { font-family: "DM Serif Display"; src: url("DMSerifDisplay-Regular.ttf"); }
+@font-face { font-family: "IBM Plex Mono"; src: url("IBMPlexMono-Regular.ttf"); }
+@font-face { font-family: "Amiri"; src: url("Amiri-Regular.ttf"); }
+@font-face { font-family: "DejaVu Sans"; src: url("DejaVuSans.ttf"); }
+
+@page {
+  size: A4;
+  margin: 20mm 16mm 18mm 16mm;
+  /* Running header: an image plus text is allowed in margin-box content. */
+  @top-left {
+    content: url("{{HEADER_LOGO}}") "  {{HEADER_TEXT}}";
+    font: 8pt "Lato", sans-serif; color: #5B6B6D;
+    vertical-align: bottom; padding-bottom: 2mm; border-bottom: 0.5pt solid #C5D3D2;
+  }
+  @bottom-right {
+    content: "Page " counter(page) " of " counter(pages);
+    font: 7.5pt "Lato", sans-serif; color: #5B6B6D;
+    vertical-align: top; padding-top: 2mm; border-top: 0.5pt solid #C5D3D2; width: 100%; text-align: right;
+  }
+  /* LIMITATION: CSS has :first/:left/:right page selectors but no :last (and Chromium lacks :nth()),
+     so the footer can't say "Continued on next page" everywhere except the last page. */
+}
+@page :first { @top-left { content: none; border: none; } }  /* skip the header on page 1 */
+
+* { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+html { font: 9pt/1.35 "Lato", "DejaVu Sans", sans-serif; color: #21302F; }   /* ✓ falls back to DejaVu */
+body { margin: 0; }
+p, h1, h2 { margin: 0; }
+.serif { font-family: "DM Serif Display", serif; font-weight: 400; }
+.mono { font-family: "IBM Plex Mono", monospace; }
+.muted { color: #5B6B6D; }
+
+.title { display: flex; align-items: flex-start; gap: 4mm; }
+.title svg { width: 18mm; height: 18mm; flex: none; }
+.title h1 { font-size: 26pt; line-height: 1.1; color: #0F5257; }
+.title .acct { margin-left: auto; text-align: right; }
+.title .acct .mono { font-size: 11pt; }
+
+.customer { display: flex; justify-content: space-between; margin-top: 6mm; }
+.arabic { font-family: "Amiri", serif; font-size: 16pt; text-align: right; }
+
+figure { margin: 6mm 0 0; break-inside: avoid; }           /* photo + caption kept together */
+figure img { width: 100%; display: block; }
+figcaption { font-size: 8pt; color: #5B6B6D; margin-top: 1.5mm; }
+
+h2 { font-size: 15pt; margin: 6mm 0 2mm; break-after: avoid; }  /* heading never orphaned */
+table { width: 100%; border-collapse: collapse; table-layout: fixed; }   /* use our widths, not auto layout */
+th:nth-child(1) { width: 22mm; } th:nth-child(2) { width: 30mm; } th:nth-child(3) { width: 10mm; }
+th:nth-child(5) { width: 18mm; } th:nth-child(6) { width: 24mm; }
+thead { display: table-header-group; }                         /* repeats on every page */
+th { background: #E6F0EF; text-align: left; font-weight: 700; padding: 1.5mm; }
+td { padding: 1.5mm; vertical-align: top; }
+tbody tr:nth-child(even) td { background: #F4F8F7; }
+tr { break-inside: avoid; }                                    /* rows never split */
+td.thumb img { height: 6mm; display: block; margin: 0 auto; }
+td.ref { font-family: "IBM Plex Mono", monospace; font-size: 8pt; }
+td.paid { color: #0F5257; }
+.num { text-align: right; white-space: nowrap; }
+.balance { text-align: right; font-weight: 700; font-size: 11pt; margin-top: 3mm; }
+
+.terms { columns: 2; column-gap: 8mm; column-fill: balance; text-align: justify; }  /* flowing columns */
+.terms p { margin-bottom: 2mm; break-inside: avoid-column; }
+.remittance { margin-top: 8mm; border: 1pt solid #0F5257; padding: 4mm; break-inside: avoid; }
+.remittance h3 { font: 13pt "DM Serif Display", serif; margin: 0 0 2mm; }
+.remittance .row { display: grid; grid-template-columns: 40mm auto; margin-bottom: 2mm; }
+.end { margin-top: 6mm; font-size: 7.5pt; color: #5B6B6D; }  /* workaround: end marker in the flow */

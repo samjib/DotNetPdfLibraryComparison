@@ -1,0 +1,64 @@
+@using InvoicePoc.Stress
+<html lang="en-GB">
+<head><meta charset="utf-8" /><title>@StressData.Title</title><style>@((MarkupString)Css)</style></head>
+<body>
+    <div class="title">
+        @((MarkupString)StressAssets.LogoSvg)
+        <div>
+            <h1 class="serif">@StressData.Title</h1>
+            <p class="muted">Statement date @StressData.StatementDate</p>
+        </div>
+        <div class="acct"><p class="muted">Account reference</p><p class="mono">@StressData.AccountRef</p></div>
+    </div>
+
+    <div class="customer">
+        <div>
+            <p><strong>@StressData.CustomerName</strong></p>
+            @foreach (var line in StressData.BranchAddress) { <p>@line</p> }
+        </div>
+        <div>
+            <p class="arabic" dir="rtl" lang="ar">@StressData.ArabicTradingName</p>
+            <p class="muted">@StressData.ArabicLabel</p>
+        </div>
+    </div>
+
+    <figure>
+        <img src="data:image/jpeg;base64,@Convert.ToBase64String(StressAssets.Photo)" alt="Site photo" />
+        <figcaption>@StressData.PhotoCaption</figcaption>
+    </figure>
+
+    <h2 class="serif">@StressData.TransactionsHeading</h2>
+    <table>
+        <thead><tr>
+            @for (var i = 0; i < StressData.Columns.Length; i++) { <th class="@(i == 5 ? "num" : "")">@StressData.Columns[i]</th> }
+        </tr></thead>
+        <tbody>
+            @foreach (var r in StressData.Rows())
+            {
+                <tr>
+                    <td>@StressData.ShortDate(r.Date)</td>
+                    <td class="ref">@r.Reference</td>
+                    <td class="thumb">@if (r.Thumbnail is not null) { <img src="data:image/png;base64,@Convert.ToBase64String(StressAssets.Thumbnail(r.Thumbnail))" alt="" /> }</td>
+                    <td>@r.Description</td>
+                    <td class="@(r.Paid ? "paid" : "")">@(r.Paid ? StressData.PaidMark : "Due")</td>
+                    <td class="num">@Fmt.Money(r.Amount)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <p class="balance">Balance due @Fmt.Money(StressData.Balance)</p>
+
+    <h2 class="serif">@StressData.TermsHeading</h2>
+    <div class="terms">@foreach (var p in StressData.Terms) { <p>@p</p> }</div>
+
+    <div class="remittance">
+        <h3>@StressData.RemittanceHeading</h3>
+        @foreach (var (label, value) in StressData.RemittanceFields) { <div class="row"><span class="muted">@label</span><span class="mono">@value</span></div> }
+    </div>
+    <p class="end">@StressData.EndText</p>
+</body>
+</html>
+
+@code {
+    [Parameter, EditorRequired] public string Css { get; set; } = default!;
+}

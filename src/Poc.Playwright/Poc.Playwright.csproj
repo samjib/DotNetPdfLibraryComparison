@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Apache-2.0. Each Playwright version pins its own Chromium build (downloaded on first run). -->
+    <PackageReference Include="Microsoft.Playwright" Version="1.62.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Invoice.Shared\Invoice.Shared.csproj" />
+  </ItemGroup>
+</Project>

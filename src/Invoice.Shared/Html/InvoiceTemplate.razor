@@ -1,0 +1,106 @@
+@* Rendered to a plain HTML string by InvoiceHtml (no web server involved). *@
+<html lang="en-GB">
+<head>
+    <meta charset="utf-8" />
+    <title>Invoice @Invoice.Number</title>
+    <style>@((MarkupString)Css)</style>
+</head>
+<body>
+    <header class="top">
+        <div class="supplier">
+            <div class="wordmark">@Brand.Wordmark</div>
+            <address>
+                @foreach (var line in InvoiceText.AddressLines(Invoice.Supplier.Address))
+                {
+                    @line<br />
+                }
+            </address>
+            <p class="muted">@InvoiceText.SupplierVatLine(Invoice)</p>
+            <p class="muted">@Invoice.Supplier.Email</p>
+        </div>
+        <div class="meta">
+            <h1>Invoice</h1>
+            <dl>
+                @foreach (var (label, value) in InvoiceText.Meta(Invoice))
+                {
+                    <dt>@label</dt>
+                    <dd>@value</dd>
+                }
+            </dl>
+        </div>
+    </header>
+
+    <section class="parties">
+        <div>
+            <h2>Bill to</h2>
+            <p><strong>@Invoice.Customer.Name</strong></p>
+            @if (Invoice.Customer.Attention is not null)
+            {
+                <p>For the attention of @Invoice.Customer.Attention</p>
+            }
+            <address>
+                @foreach (var line in InvoiceText.AddressLines(Invoice.Customer.Address))
+                {
+                    @line<br />
+                }
+            </address>
+        </div>
+        <div class="due">
+            <div>Amount due</div>
+            <div class="due-amount">@Fmt.Money(Invoice.Total)</div>
+            <div>by @Fmt.Date(Invoice.DueDate)</div>
+        </div>
+    </section>
+
+    <table class="lines">
+        <thead>
+            <tr>
+                <th>@InvoiceText.ColumnHeaders[0]</th>
+                @foreach (var header in InvoiceText.ColumnHeaders.Skip(1))
+                {
+                    <th class="num">@header</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var line in Invoice.Lines)
+            {
+                var cells = InvoiceText.Row(line);
+                <tr>
+                    <td>@cells[0]</td>
+                    <td class="num">@cells[1]</td>
+                    <td class="num">@cells[2]</td>
+                    <td class="num">@cells[3]</td>
+                    <td class="num">@cells[4]</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <table class="totals">
+        <tr><td>Subtotal (excluding VAT)</td><td class="num">@Fmt.Money(Invoice.Subtotal)</td></tr>
+        @foreach (var band in Invoice.VatBands)
+        {
+            <tr><td>@InvoiceText.VatLabel(band)</td><td class="num">@Fmt.Money(band.Vat)</td></tr>
+        }
+        <tr class="grand"><td>Total due</td><td class="num">@Fmt.Money(Invoice.Total)</td></tr>
+    </table>
+
+    <section class="pay">
+        <h2>How to pay</h2>
+        <dl>
+            @foreach (var (label, value) in InvoiceText.Payment(Invoice))
+            {
+                <dt>@label</dt>
+                <dd>@value</dd>
+            }
+        </dl>
+        <p class="notes">@Invoice.Notes</p>
+    </section>
+</body>
+</html>
+
+@code {
+    [Parameter, EditorRequired] public Invoice Invoice { get; set; } = default!;
+    [Parameter, EditorRequired] public string Css { get; set; } = default!;
+}

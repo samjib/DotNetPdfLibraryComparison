@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Commercial. Without a key it renders in trial mode (watermarked). The Chromium engine is
+         shipped as a native package per OS: IronPdf (Windows) or IronPdf.Linux. -->
+    <PackageReference Include="IronPdf" Version="2026.9.2" Condition="$([MSBuild]::IsOSPlatform('Windows'))" />
+    <PackageReference Include="IronPdf.Linux" Version="2026.9.2" Condition="!$([MSBuild]::IsOSPlatform('Windows'))" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Invoice.Shared\Invoice.Shared.csproj" />
+  </ItemGroup>
+</Project>

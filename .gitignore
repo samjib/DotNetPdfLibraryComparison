@@ -1,0 +1,7 @@
+bin/
+obj/
+.vs/
+*.user
+# Licence keys must never be committed
+telerik-license.txt
+*.lic
