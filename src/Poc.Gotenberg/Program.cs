@@ -9,6 +9,10 @@ using InvoicePoc.Html;
 var baseUrl = Environment.GetEnvironmentVariable("GOTENBERG_URL") ?? "http://localhost:3000";
 using var http = new HttpClient { BaseAddress = new Uri(baseUrl), Timeout = TimeSpan.FromSeconds(60) };
 
+if (args.Contains("merge"))
+    return await PocRunner.RunAsync("Gotenberg (merge)", "merged-gotenberg.pdf",
+        (invoice, path) => MergeDocuments.GenerateAsync(http, invoice, path), warmRuns: 2);
+
 return await PocRunner.RunAsync("Gotenberg", "gotenberg.pdf", async (invoice, path) =>
 {
     var html = await InvoiceHtml.RenderAsync(invoice);

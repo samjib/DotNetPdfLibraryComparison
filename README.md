@@ -15,6 +15,10 @@ fallback, SVG and other images, headers that skip page 1, a different last-page 
 and two-column text. See [STRESS-TEST.md](STRESS-TEST.md) for the results matrix, and run it with
 `.\run-all.ps1 -Stress`.
 
+**Appending an existing PDF.** A third test appends a supplied terms-and-conditions PDF to the generated
+invoice, checking bookmarks, links and mixed page sizes. See [MERGE.md](MERGE.md), and run it with
+`.\run-all.ps1 -Merge`.
+
 ## Results
 
 | Library (version) | Approach | Licence | Size | First doc | Warm | Outcome in this run |

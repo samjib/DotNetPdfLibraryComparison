@@ -14,6 +14,9 @@ QuestPDF.Settings.UseEnvironmentFonts = false; // only use fonts we register (de
 FontManager.RegisterFont(new MemoryStream(Brand.LatoRegular));
 FontManager.RegisterFont(new MemoryStream(Brand.LatoBold));
 
+if (args.Contains("merge"))
+    return await PocRunner.RunAsync("QuestPDF (merge)", "merged-questpdf.pdf", MergeDocuments.Generate, warmRuns: 2);
+
 if (args.Contains("stress"))
 {
     StressDocument.RegisterFonts();

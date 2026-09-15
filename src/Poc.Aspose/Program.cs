@@ -8,6 +8,9 @@ using Aspose.Pdf.Text;
 var licencePath = Environment.GetEnvironmentVariable("ASPOSE_LICENSE_PATH");
 if (!string.IsNullOrWhiteSpace(licencePath)) new License().SetLicense(licencePath);
 
+if (args.Contains("merge"))
+    return await PocRunner.RunAsync("Aspose.PDF (merge)", "merged-aspose.pdf", MergeDocuments.Generate, warmRuns: 2);
+
 if (args.Contains("stress"))
     return await PocRunner.RunAsync("Aspose.PDF (stress)", "stress-aspose.pdf", (_, path) => StressDocument.Generate(path), warmRuns: 2);
 

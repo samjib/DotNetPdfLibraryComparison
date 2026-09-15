@@ -5,6 +5,9 @@ set -u
 cd "$(dirname "$0")"
 extra=()
 if [ "${1:-}" = "--stress" ]; then shift; extra=(-- stress); [ $# -eq 0 ] && set -- QuestPdf MigraDoc IText Syncfusion Aspose Telerik Playwright; fi
+if [ "${1:-}" = "--merge" ]; then shift; extra=(-- merge)
+  [ -f assets/terms-and-conditions.pdf ] || dotnet run --project src/Poc.IText -c Release -- make-terms
+  [ $# -eq 0 ] && set -- QuestPdf MigraDoc IText Syncfusion Aspose Telerik Gotenberg; fi
 pocs=("$@")
 [ ${#pocs[@]} -eq 0 ] && pocs=(QuestPdf MigraDoc IText Syncfusion Aspose Telerik Playwright PuppeteerSharp Gotenberg IronPdf)
 

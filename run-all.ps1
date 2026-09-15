@@ -4,13 +4,19 @@
     .\run-all.ps1
     .\run-all.ps1 -Only QuestPdf,MigraDoc
     .\run-all.ps1 -Stress        # the layout stress test (see STRESS-TEST.md)
+    .\run-all.ps1 -Merge         # append an existing T&Cs PDF (see MERGE.md)
 #>
-param([string[]] $Only, [switch] $Stress)
+param([string[]] $Only, [switch] $Stress, [switch] $Merge)
 
 $pocs = 'QuestPdf', 'MigraDoc', 'IText', 'Syncfusion', 'Aspose', 'Telerik', 'Playwright', 'PuppeteerSharp', 'Gotenberg', 'IronPdf'
 if ($Stress) { $pocs = 'QuestPdf', 'MigraDoc', 'IText', 'Syncfusion', 'Aspose', 'Telerik', 'Playwright' }
+if ($Merge)  { $pocs = 'QuestPdf', 'MigraDoc', 'IText', 'Syncfusion', 'Aspose', 'Telerik', 'Gotenberg' }
 if ($Only) { $pocs = $pocs | Where-Object { $Only -contains $_ } }
-$runArgs = if ($Stress) { @('--', 'stress') } else { @() }
+$runArgs = if ($Stress) { @('--', 'stress') } elseif ($Merge) { @('--', 'merge') } else { @() }
+
+if ($Merge -and -not (Test-Path "$PSScriptRoot\assets\terms-and-conditions.pdf")) {
+    dotnet run --project "$PSScriptRoot\src\Poc.IText" -c Release -- make-terms
+}
 
 dotnet build "$PSScriptRoot\InvoicePdfPoc.sln" -c Release
 if ($LASTEXITCODE -ne 0) { throw "Build failed." }

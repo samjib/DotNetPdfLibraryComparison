@@ -13,6 +13,15 @@ using iText.Layout.Properties;
 // iText Core (layout module): Document / Table / Cell / Paragraph objects with automatic
 // pagination. Free under AGPLv3 (your app must then be AGPL too) or via a commercial licence.
 
+if (args.Contains("make-terms"))
+{
+    TermsPdf.Generate(System.IO.Path.Combine(PocRunner.OutputDirectory(), "..", "assets", "terms-and-conditions.pdf"));
+    return 0;
+}
+
+if (args.Contains("merge"))
+    return await PocRunner.RunAsync("iText Core (merge)", "merged-itext.pdf", MergeDocuments.Generate, warmRuns: 2);
+
 if (args.Contains("stress"))
     return await PocRunner.RunAsync("iText Core (stress)", "stress-itext.pdf", (_, path) => StressDocument.Generate(path), warmRuns: 2);
 

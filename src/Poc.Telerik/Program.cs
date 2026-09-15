@@ -16,6 +16,12 @@ using Telerik.Documents.Primitives;
 // Note: the 2026 packages use Telerik.Documents.* namespaces (older samples use Telerik.Windows.Documents.*).
 
 // On .NET Core the PDF exporter can't enumerate system fonts, so a FontsProvider must supply font bytes.
+if (args.Contains("merge"))
+{
+    FixedExtensibilityManager.FontsProvider = new LatoFontsProvider();
+    return await PocRunner.RunAsync("Telerik (merge)", "merged-telerik.pdf", MergeDocuments.Generate, warmRuns: 2);
+}
+
 if (args.Contains("stress"))
 {
     FixedExtensibilityManager.FontsProvider = new StressFontsProvider();

@@ -9,6 +9,12 @@ using PdfSharp.Fonts;
 
 // The cross-platform (Core) build of PDFsharp needs a font resolver; on Windows you could
 // alternatively set GlobalFontSettings.UseWindowsFontsUnderWindows = true.
+if (args.Contains("merge"))
+{
+    GlobalFontSettings.FontResolver = new LatoFontResolver();
+    return await PocRunner.RunAsync("PDFsharp + MigraDoc (merge)", "merged-pdfsharp-migradoc.pdf", MergeDocuments.Generate, warmRuns: 2);
+}
+
 if (args.Contains("stress"))
 {
     GlobalFontSettings.FontResolver = new StressFontResolver();

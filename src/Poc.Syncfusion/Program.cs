@@ -12,6 +12,9 @@ using Syncfusion.Pdf.Grid;
 var key = Environment.GetEnvironmentVariable("SYNCFUSION_LICENSE_KEY");
 if (!string.IsNullOrWhiteSpace(key)) Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(key);
 
+if (args.Contains("merge"))
+    return await PocRunner.RunAsync("Syncfusion (merge)", "merged-syncfusion.pdf", MergeDocuments.Generate, warmRuns: 2);
+
 if (args.Contains("stress"))
     return await PocRunner.RunAsync("Syncfusion (stress)", "stress-syncfusion.pdf", (_, path) => StressDocument.Generate(path), warmRuns: 2);
 

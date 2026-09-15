@@ -1,17 +1,23 @@
 library,file,bytes,first_ms,warm_ms,utc
 Aspose.PDF (stress),stress-aspose.pdf,1193264,4265,1849,2026-09-11 01:38:40Z
 Aspose.PDF,aspose.pdf,360056,2261,259,2026-09-10 23:07:49Z
+Gotenberg (merge),merged-gotenberg.pdf,84304,3449,2455,2026-09-15 12:02:17Z
 Gotenberg,gotenberg.pdf,92531,7698,2201,2026-09-10 23:08:16Z
+PDFsharp + MigraDoc (merge),merged-pdfsharp-migradoc.pdf,90473,258,22,2026-09-15 12:02:04Z
 PDFsharp + MigraDoc (stress),stress-pdfsharp-migradoc.pdf,175057,583,278,2026-09-11 01:38:27Z
 PDFsharp + MigraDoc,pdfsharp-migradoc.pdf,49942,219,13,2026-09-10 23:07:40Z
 Playwright (stress),stress-chromium.pdf,267928,2416,1170,2026-09-11 01:38:46Z
 Playwright,playwright.pdf,79006,1236,369,2026-09-10 23:07:55Z
 PuppeteerSharp,puppeteersharp.pdf,81816,1246,309,2026-09-10 23:07:57Z
+QuestPDF (merge),merged-questpdf.pdf,88577,138,9,2026-09-15 12:05:42Z
 QuestPDF (stress),stress-questpdf.pdf,145816,225,28,2026-09-11 01:40:09Z
 QuestPDF,questpdf.pdf,48254,198,13,2026-09-10 23:16:05Z
+Syncfusion (merge),merged-syncfusion.pdf,83779,1413,62,2026-09-15 12:02:06Z
 Syncfusion (stress),stress-syncfusion.pdf,153279,1444,122,2026-09-11 01:38:32Z
 Syncfusion,syncfusion.pdf,42060,1830,49,2026-09-10 23:07:44Z
+Telerik (merge),merged-telerik.pdf,378598,725,132,2026-09-15 12:02:48Z
 Telerik (stress),stress-telerik.pdf,520854,918,192,2026-09-11 01:38:41Z
 Telerik,telerik.pdf,328424,1077,72,2026-09-10 23:07:51Z
+iText Core (merge),merged-itext.pdf,83166,629,87,2026-09-15 12:02:04Z
 iText Core (stress),stress-itext.pdf,163628,2171,449,2026-09-11 01:38:30Z
 iText Core,itext.pdf,42240,1631,80,2026-09-10 23:07:42Z
